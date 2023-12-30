@@ -128,8 +128,9 @@ const Index = () => {
               </svg>
               <div className="custom-select inline-block relative">
                 <div
-                  className={`select-header flex items-center ${isDropdownOpen ? "open" : ""
-                    }`}
+                  className={`select-header flex items-center ${
+                    isDropdownOpen ? "open" : ""
+                  }`}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <img
@@ -157,7 +158,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div class="mx-auto w-3/4 bg-white mt-3">
+      <div class="mx-auto px-5 bg-white mt-3">
         <nav class="">
           <ul class="flex  justify-between">
             <li>

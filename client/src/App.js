@@ -12,12 +12,13 @@ import ExplorePage from "./Pages/ExplorePage/Index";
 import CartPage from "./Pages/CartPage/Index";
 import ProductDetailPage from "./Pages/ProductDetailPage/Index";
 import ProfilePage from "./Pages/ProfilePage/Index";
+import BrowsingPage from "./Pages/BrowsingPage";
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<BrowsingPage />} />
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Listing" element={<NewListing />} />

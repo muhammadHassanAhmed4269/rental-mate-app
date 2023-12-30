@@ -5,99 +5,6 @@ import BrowsingPic2 from "../../Assets/browsing2.png";
 
 // Example items, to simulate fetching from another resources.
 // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-const items = [
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-  {
-    title: "SONY high resolution camera-92",
-    rating: 3,
-    price: "Price",
-    zipcode: "20001",
-    reviews: 2,
-  },
-];
 
 function Items({ currentItems }) {
   return (
@@ -227,7 +134,7 @@ function Items({ currentItems }) {
   );
 }
 
-function PaginatedItems({ itemsPerPage }) {
+function ListView({ itemsPerPage, items }) {
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
@@ -251,19 +158,47 @@ function PaginatedItems({ itemsPerPage }) {
 
   return (
     <>
-      <Items currentItems={currentItems} />
+      <div className="col-span-9 bg-[#D6FFD8] px-8 pt-5 pb-0 flex flex-col gap-5">
+        <Items currentItems={currentItems} />
+      </div>
       <ReactPaginate
         breakLabel="..."
-        nextLabel=">"
+        nextLabel={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="17"
+            viewBox="0 0 14 21"
+            fill="none"
+          >
+            <path
+              d="M2.87729 20.5936L13.4013 11.8433C13.5898 11.6737 13.7405 11.4665 13.8436 11.2351C13.9467 11.0037 14 10.7532 14 10.5C14 10.2468 13.9467 9.99634 13.8436 9.76494C13.7405 9.53354 13.5898 9.32633 13.4013 9.1567L2.87729 0.406381C2.70048 0.259153 2.49635 0.148111 2.27653 0.0795965C2.05672 0.0110821 1.82553 -0.0135635 1.59617 0.00706717C1.36681 0.0276978 1.14377 0.0932006 0.939787 0.199835C0.735799 0.30647 0.55486 0.452149 0.407299 0.628554C0.259738 0.804959 0.148446 1.00864 0.0797768 1.22795C0.0111084 1.44727 -0.0135937 1.67794 0.00708294 1.90678C0.0277605 2.13563 0.0934114 2.35817 0.200286 2.56169C0.307161 2.76522 0.45317 2.94576 0.629972 3.09298L9.53706 10.5L0.629972 17.907C0.45317 18.0542 0.307161 18.2348 0.200286 18.4383C0.0934114 18.6418 0.0277605 18.8644 0.00708294 19.0932C-0.0135937 19.3221 0.0111084 19.5527 0.0797768 19.772C0.148446 19.9914 0.259738 20.195 0.407299 20.3714C0.55486 20.5478 0.735799 20.6935 0.939787 20.8002C1.14377 20.9068 1.36681 20.9723 1.59617 20.9929C1.82553 21.0136 2.05672 20.9889 2.27653 20.9204C2.49635 20.8519 2.70048 20.7408 2.87729 20.5936Z"
+              fill="black"
+            />
+          </svg>
+        }
         onPageChange={handlePageClick}
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="<"
-        containerClassName="flex items-center gap-3 justify-center text-black font-semibold text-[15px]"
+        previousLabel={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="17"
+            viewBox="0 0 14 21"
+            fill="none"
+          >
+            <path
+              d="M11.1227 0.406384L0.598672 9.1567C0.41021 9.32633 0.259542 9.53354 0.156415 9.76494C0.0532878 9.99634 0 10.2468 0 10.5C0 10.7532 0.0532878 11.0037 0.156415 11.2351C0.259542 11.4665 0.41021 11.6737 0.598672 11.8433L11.1227 20.5936C11.2995 20.7408 11.5037 20.8519 11.7235 20.9204C11.9433 20.9889 12.1745 21.0136 12.4038 20.9929C12.6332 20.9723 12.8562 20.9068 13.0602 20.8002C13.2642 20.6935 13.4451 20.5479 13.5927 20.3714C13.7403 20.195 13.8516 19.9914 13.9202 19.772C13.9889 19.5527 14.0136 19.3221 13.9929 19.0932C13.9722 18.8644 13.9066 18.6418 13.7997 18.4383C13.6928 18.2348 13.5468 18.0542 13.37 17.907L4.46294 10.5L13.37 3.09298C13.5468 2.94576 13.6928 2.76522 13.7997 2.5617C13.9066 2.35817 13.9722 2.13563 13.9929 1.90679C14.0136 1.67794 13.9889 1.44728 13.9202 1.22796C13.8516 1.00864 13.7403 0.80496 13.5927 0.628555C13.4451 0.45215 13.2642 0.306471 13.0602 0.199837C12.8562 0.0932007 12.6332 0.0277004 12.4038 0.00707054C12.1745 -0.0135612 11.9433 0.0110836 11.7235 0.0795975C11.5037 0.148111 11.2995 0.259155 11.1227 0.406384Z"
+              fill="black"
+            />
+          </svg>
+        }
+        containerClassName="flex col-span-12 items-center gap-5 mb-5 justify-center border-black text-black font-semibold text-[15px]"
         activeClassName="bg-[#01A664]  w-[30px] h-[30px] items-center flex justify-center rounded-full"
         renderOnZeroPageCount={null}
       />
     </>
   );
 }
-export default PaginatedItems;
+export default ListView;

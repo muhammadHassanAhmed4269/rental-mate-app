@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import FooterImg from "../../Assets/footerImg.png";
-const Index = () => {
+import { useNavigate } from "react-router-dom";
+const Footer = () => {
+  const categories = [
+    "Electronics",
+    "Home and Garden",
+    "Party",
+    "Film and Photography",
+    "Sports and leisures",
+    "Construction Tools",
+  ];
+  const navigate = useNavigate();
+  const handleCategory = (item) => {
+    localStorage.setItem("category", JSON.stringify(item));
+    navigate("Categories");
+  };
   return (
     <div className="bg-[#4CAF50] w-full h-[50vh] text-white">
       <div className="flex  items-center h-full ml-16">
@@ -24,14 +38,22 @@ const Index = () => {
             <p className="mt-2">FAQ</p>
             <p className="mt-2">Contact</p>
           </div>
-          <div>
-            <h1 className="text-xl mb-3 mt-14 font-bold">Categoriess</h1>
-            <p className="mt-2">Electronics </p>
-            <p className="mt-2">Home and Garden </p>
-            <p className="mt-2">Party</p>
-            <p className="mt-2">Film and Photography</p>
-            <p className="mt-2">Sports and leisures</p>
-            <p className="mt-2">Construction Tools</p>
+          <div className="flex flex-col">
+            <h1 className="text-xl mb-3 mt-16 ml-6 font-bold">Categories</h1>
+            {categories.map((item, index) => (
+              <button
+                className="mt-2"
+                onClick={() => handleCategory(item)}
+                key={index}
+              >
+                {item}
+              </button>
+            ))}
+            {/* <p className="mt-2" onClick={setCategoryName('')}>Home and Garden </p>
+            <p className="mt-2" onClick={setCategoryName('')}>Party</p>
+            <p className="mt-2" onClick={setCategoryName('')}>Film and Photography</p>
+            <p className="mt-2" onClick={setCategoryName('')}>Sports and leisures</p>
+            <p className="mt-2" onClick={setCategoryName('')}>Construction Tools</p> */}
           </div>
         </div>
         <div className="ml-auto">
@@ -84,4 +106,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Footer;

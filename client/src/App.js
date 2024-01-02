@@ -13,6 +13,7 @@ import CartPage from "./Pages/CartPage/Index";
 import ProductDetailPage from "./Pages/ProductDetailPage/Index";
 import ProfilePage from "./Pages/ProfilePage/Index";
 import BrowsingPage from "./Pages/BrowsingPage";
+import Footer from "./Components/Footer/Index";
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Cart" element={<CartPage />} />
         <Route path="/Product-detail" element={<ProductDetailPage />} />
         <Route path="/Profile" element={<ProfilePage />} />
+        <Route element={<Footer />} />
       </Routes>
     </BrowserRouter>
   );

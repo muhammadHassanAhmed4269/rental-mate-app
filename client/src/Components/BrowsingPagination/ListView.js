@@ -10,8 +10,8 @@ function Items({ currentItems }) {
   return (
     <>
       {currentItems &&
-        currentItems.map((item) => (
-          <div className="bg-white  flex gap-4 px-2 py-2">
+        currentItems.map((item, index) => (
+          <div key={index} className="bg-white  flex gap-4 px-2 py-2">
             <img
               className="h-[110px] w-[120px] rounded-2xl "
               src={BrowsingPic2}
@@ -69,17 +69,17 @@ function Items({ currentItems }) {
                         fill="#FFC107"
                       />
                     </svg>
-                    <div className="absolute right-[-20px] top-[-1px] text-[10px]">
-                      ({item.reviews})
+                    <div className="absolute right-[-20px] top-[-1px] text-[10px] font-semibold">
+                      (2)
                     </div>
                   </div>
                 </div>
                 <div className="text-[#4CAF50] text-[13px] font-normal">
                   {item.price}
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between w-[150px]">
                   <div className="text-[13px]">Zipcode</div>
-                  <div className="text-[13px]">{item.zipcode}</div>
+                  <div className="text-[13px]">{item.zipCode}</div>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -158,9 +158,16 @@ function ListView({ itemsPerPage, items }) {
 
   return (
     <>
-      <div className="col-span-9 bg-[#D6FFD8] px-8 pt-5 pb-0 flex flex-col gap-5">
-        <Items currentItems={currentItems} />
+      <div className="col-span-9 bg-[#D6FFD8] px-8 py-5 flex flex-col gap-5">
+        {currentItems.length > 0 ? (
+          <Items currentItems={currentItems} />
+        ) : (
+          <div className="text-center font-semibold text-[20px] justify-center items-center flex h-full">
+            <div>No Products Found </div>
+          </div>
+        )}
       </div>
+
       <ReactPaginate
         breakLabel="..."
         nextLabel={

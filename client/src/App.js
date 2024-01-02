@@ -15,23 +15,21 @@ import ProfilePage from "./Pages/ProfilePage/Index";
 import BrowsingPage from "./Pages/BrowsingPage";
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<BrowsingPage />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Listing" element={<NewListing />} />
-          <Route path="/Categories" element={<CategoriesPage />} />
-          <Route path="/About" element={<AboutPage />} />
-          <Route path="/Wishlist" element={<WishlistPage />} />
-          <Route path="/Explore" element={<ExplorePage />} />
-          <Route path="/Cart" element={<CartPage />} />
-          <Route path="/Product-detail" element={<ProductDetailPage />} />
-          <Route path="/Profile" element={<ProfilePage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BrowsingPage />} />
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Listing" element={<NewListing />} />
+        <Route path="/Categories" element={<CategoriesPage />} />
+        <Route path="/About" element={<AboutPage />} />
+        <Route path="/Wishlist" element={<WishlistPage />} />
+        <Route path="/Explore" element={<ExplorePage />} />
+        <Route path="/Cart" element={<CartPage />} />
+        <Route path="/Product-detail" element={<ProductDetailPage />} />
+        <Route path="/Profile" element={<ProfilePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

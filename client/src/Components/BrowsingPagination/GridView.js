@@ -6,16 +6,22 @@ import BrowsingPic2 from "../../Assets/browsing2.png";
 // Example items, to simulate fetching from another resources.
 // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-function Items({ currentItems }) {
+function Items({ currentItems, parentClassName, boxWidth, imageHeight }) {
   return (
-    <div className="grid grid-cols-4 gap-4 px-8">
+    <div className={parentClassName}>
       {currentItems &&
-        currentItems.map((item) => (
-          <div className="relative flex flex-col mb-10 items-center w-[180px]  bg-white rounded-2xl shadow-xl">
-            <img className="h-[120px] w-full rounded-2xl " src={BrowsingPic2} />
-            <div className=" w-[120px] py-7">
-              <div className="font-semibold text-black text-[13px] flex justify-center">
-                Product Name
+        currentItems.map((item, index) => (
+          <div
+            key={index}
+            className={`relative flex flex-col mb-10 items-center ${boxWidth}  bg-white rounded-2xl shadow-xl`}
+          >
+            <img
+              className={`${imageHeight} w-full rounded-2xl `}
+              src={BrowsingPic2}
+            />
+            <div className=" w-[120px] flex-col flex gap-1 pt-4 pb-8">
+              <div className="font-semibold text-black text-center line-clamp-1 text-[13px] flex justify-center">
+                {item.title}
               </div>
               <div className="flex justify-between items-center">
                 <div className="font-semibold text-[#01A664] text-[13px]">
@@ -59,20 +65,32 @@ function Items({ currentItems }) {
                         fill="#FFC107"
                       />
                     </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="13"
+                      height="10"
+                      viewBox="0 0 15 12"
+                      fill="none"
+                    >
+                      <path
+                        d="M13.583 4.35974L9.90681 4.05974C9.67506 4.04156 9.47482 3.91428 9.38012 3.72338L8.06339 0.968838C7.85271 0.514294 7.10471 0.514294 6.89403 0.968838L5.58783 3.72338C5.50356 3.91428 5.29289 4.04156 5.06114 4.05974L1.38484 4.35974C0.83708 4.40519 0.615869 4.9961 1.02669 5.31428L3.79708 7.41427C3.97616 7.55064 4.0499 7.75064 3.99723 7.95063L3.16506 10.896C3.03865 11.3597 3.61801 11.7414 4.10257 11.4961L7.16791 9.94145C7.36805 9.84145 7.61033 9.84145 7.81047 9.94145L10.8759 11.4961C11.3605 11.7414 11.9398 11.3688 11.8133 10.896L10.9917 7.95063C10.939 7.75064 11.0128 7.55064 11.1918 7.41427L13.9622 5.31428C14.3625 4.9961 14.1308 4.40519 13.583 4.35974Z"
+                        fill="#FFC107"
+                      />
+                    </svg>
                   </div>
                   <div className="font-semibold text-black text-[10px]">
-                    ({item.reviews})
+                    (2)
                   </div>
                 </div>
               </div>
               <div className="flex items-center font-semibold text-[13px] justify-between">
                 <div>Zipcode</div>
-                <div>20001</div>
+                <div>{item.zipCode}</div>
               </div>
+              <button className="absolute bottom-[-20px] bg-[#01A664] py-2 px-4 rounded-3xl text-white font-semibold text-[14px] tracking-[1px]">
+                Add to Cart
+              </button>
             </div>
-            <button className="absolute bottom-[-20px] bg-[#01A664] py-2 px-4 rounded-3xl text-white font-semibold text-[14px] tracking-[1px]">
-              Add to Cart
-            </button>
             <button className="absolute right-2 top-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +118,13 @@ function Items({ currentItems }) {
   );
 }
 
-function GridView({ itemsPerPage, items }) {
+function GridView({
+  itemsPerPage,
+  items,
+  parentClassName,
+  boxWidth,
+  imageHeight,
+}) {
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
@@ -125,7 +149,18 @@ function GridView({ itemsPerPage, items }) {
   return (
     <>
       <div className="col-span-9 bg-[#D6FFD8] px-8 pt-5 pb-0 flex flex-col gap-5">
-        <Items currentItems={currentItems} />
+        {currentItems.length > 0 ? (
+          <Items
+            currentItems={currentItems}
+            parentClassName={parentClassName}
+            boxWidth={boxWidth}
+            imageHeight={imageHeight}
+          />
+        ) : (
+          <div className="text-center font-semibold text-[20px] justify-center items-center flex h-full">
+            <div>No Products Found </div>
+          </div>
+        )}
       </div>
       <ReactPaginate
         breakLabel="..."

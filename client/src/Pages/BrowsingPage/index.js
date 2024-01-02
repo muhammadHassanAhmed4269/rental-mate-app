@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/index";
 import Footer from "../../Components/Footer/Index";
 
@@ -10,13 +10,29 @@ import "rc-slider/assets/index.css";
 import BrowsingPic from "../../Assets/BrowsingPic.svg";
 import ListView from "../../Components/BrowsingPagination/ListView";
 import GridView from "../../Components/BrowsingPagination/GridView";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 const BrowsingPage = () => {
-  const options = ["one", "two", "three"];
+  const daysOption = [
+    { label: "7 Days", value: 7 },
+    { label: "30 Days", value: 30 },
+    { label: "60 Days", value: 60 },
+  ];
+  const verificationOptions = [
+    { value: false, label: "Not Verified" },
+    { value: true, label: "Verified" },
+  ];
   const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
   const [status, setStatus] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const [days, setDays] = useState("");
   const [enableListView, setenableListView] = useState(false);
+  const [rangeMin, setRangeMin] = useState(300);
+  const [rangeMax, setRangeMax] = useState(1100);
+  const [prodData, setProdData] = useState([]);
+
   const data = [
     {
       title: "SONY high resolution camera-92",
@@ -110,6 +126,37 @@ const BrowsingPage = () => {
       reviews: 2,
     },
   ];
+  const handleFilters = () => {
+    const day = startDate.toLocaleDateString().split("/")[0];
+    const month = startDate.toLocaleDateString().split("/")[1];
+    const year = startDate.toLocaleDateString().split("/")[2];
+    const date = `${year}-${month}-${day}`;
+    const range = [rangeMin, rangeMax];
+    console.log(status, date, days, range);
+    const params = {
+      priceRange: JSON.stringify(range),
+      datePosted: date,
+      verficationStatus: status,
+      availableDays: days,
+    };
+    axios
+      .get("https://rental-mate-backend.vercel.app/products/filter", {
+        params: params,
+      })
+      .then((res) => setProdData(res.data))
+      .catch((err) => console.log(err));
+  };
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     console.log(position.coords.latitude, position.coords.longitude);
+  //   });
+  // }
+  useEffect(() => {
+    axios
+      .get("https://rental-mate-backend.vercel.app/products/filter")
+      .then((res) => setProdData(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div>
       <Navbar />
@@ -267,16 +314,16 @@ const BrowsingPage = () => {
           </button>
         </div>
       </div>
-      <div className="px-5 grid grid-cols-12 gap-6 mt-4">
-        <div className="col-span-3  bg-[#D6FFD8] flex flex-col py-5 px-5 gap-5">
+      <div className="px-5 grid grid-cols-12 gap-6 mt-4 mb-5">
+        <div className="col-span-3  bg-[#D6FFD8] flex flex-col py-5 px-5 gap-5 ">
           <div className="font-semibold text-[22px] mb-2">Filters</div>
           <div className="">Location</div>
 
           <Dropdown
-            options={options}
-            onChange={(item) => {
-              setLocation(item.value);
-            }}
+            options={daysOption}
+            // onChange={(item) => {
+            //   setLocation(item.value);
+            // }}
             value={location}
             placeholder="Select location"
             className="border-[1px]  border-black"
@@ -287,11 +334,11 @@ const BrowsingPage = () => {
           <div className="">Verification Status</div>
 
           <Dropdown
-            options={options}
+            options={verificationOptions}
             onChange={(item) => {
               setStatus(item.value);
             }}
-            value={status}
+            // value={status}
             placeholder="Select status"
             className="border-[1px] border-black"
             menuClassName="text-[15px]"
@@ -301,37 +348,36 @@ const BrowsingPage = () => {
           <div className="">Days available</div>
 
           <Dropdown
-            options={options}
+            options={daysOption}
             onChange={(item) => {
+              console.log(item);
               setDays(item.value);
             }}
-            value={days}
+            // value={days}
             placeholder="Select days"
             className="border-[1px] border-black"
             menuClassName="text-[15px]"
             controlClassName="h-[37px]"
             placeholderClassName="text-[15px]"
           />
+
           <div className="">Date posted</div>
 
-          <Dropdown
-            options={options}
-            onChange={(item) => {
-              setDate(item.value);
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => {
+              setStartDate(date);
             }}
-            value={date}
-            placeholder="Select date"
-            className="border-[1px] border-black"
-            menuClassName="text-[15px]"
-            controlClassName="h-[37px]"
-            placeholderClassName="text-[15px]"
+            className="border-[1px] border-black h-[37px] text-[15px] w-full px-2 "
+            calendarClassName="absolute"
+            dateFormat={"MMMM d, yyyy"}
           />
           <div>
             <Slider
               range
-              defaultValue={[50, 100]}
+              defaultValue={[rangeMin, rangeMax]}
               min={0}
-              max={150}
+              max={10000}
               handleStyle={[
                 {
                   backgroundColor: "black",
@@ -339,6 +385,7 @@ const BrowsingPage = () => {
 
                   width: 12,
                   height: 12,
+                  zIndex: 0,
                   // bottom: 1,
                 },
                 {
@@ -346,18 +393,27 @@ const BrowsingPage = () => {
                   border: "none",
                   width: 12,
                   height: 12,
+                  zIndex: 0,
                   // bottom: 1,
                 },
               ]}
               trackStyle={{ backgroundColor: "none", height: 0 }}
               railStyle={{ backgroundColor: "black", height: 1 }}
-            />
+              onChange={(val) => {
+                setRangeMin(val[0]);
+                setRangeMax(val[1]);
+              }}
+            ></Slider>
+
             <div className="flex items-center justify-between text-[14px]">
-              <div>0</div>
-              <div>150</div>
+              <div>{rangeMin}</div>
+              <div>{rangeMax}</div>
             </div>
           </div>
-          <button className="bg-[#01A664] mb-10 py-3 rounded-2xl text-white font-semibold text-[14px] tracking-[1px]">
+          <button
+            onClick={handleFilters}
+            className="bg-[#01A664] mb-10 py-3 rounded-2xl text-white font-semibold text-[14px] tracking-[1px]"
+          >
             Apply filters
           </button>
           <button className="bg-[#01A664] py-3 rounded-2xl text-white font-semibold text-[14px] tracking-[1px]">
@@ -365,9 +421,15 @@ const BrowsingPage = () => {
           </button>
         </div>
         {enableListView ? (
-          <ListView itemsPerPage={5} items={data} />
+          <ListView itemsPerPage={5} items={prodData} />
         ) : (
-          <GridView itemsPerPage={12} items={data} />
+          <GridView
+            parentClassName="grid grid-cols-4 justify-between px-5"
+            boxWidth="w-[180px]"
+            imageHeight="h-[120px]"
+            itemsPerPage={12}
+            items={prodData}
+          />
         )}
       </div>
 

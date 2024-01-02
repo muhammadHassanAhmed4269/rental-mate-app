@@ -31,13 +31,10 @@ const Index = () => {
       <div className="bg-green-600">
         <div className=" h-24 flex items-center ">
           <div className="flex items-center">
-            <div
-              className="text-white text-lg font-bold mr-4 flex justify-center items-center"
-              style={{ width: "158px", height: "79px" }}
-            >
+            <div className="text-white text-2xl font-medium flex justify-center items-center w-[100px]">
               Logo
             </div>
-            <div className="w-[572px] relative h-12 flex items-center bg-white p-2">
+            <div className="w-[450px] relative h-12 flex items-center bg-white p-2">
               <input
                 className="w-full h-12 bg-transparent outline-none placeholder-black pl-12"
                 type="text"
@@ -50,7 +47,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="flex ml-8">
+          <div className="flex justify-around w-full">
             <div className="flex items-center">
               <Link to={"/"} className="text-white text-lg mr-4">
                 Home
@@ -67,7 +64,7 @@ const Index = () => {
               </Link>
             </div>
 
-            <div className="flex items-center ml-8 justify-between w-[340px]">
+            <div className="flex items-center justify-between gap-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -126,34 +123,35 @@ const Index = () => {
                   />
                 </svg>
               </svg>
-              <div className="custom-select inline-block relative">
-                <div
-                  className={`select-header flex items-center ${
-                    isDropdownOpen ? "open" : ""
-                  }`}
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  <img
-                    className="w-7 h-7 rounded-full"
-                    src={selectedLanguage.flag}
-                    alt={selectedLanguage.value}
-                  />
-                  <span className="text-white">{selectedLanguage.label}</span>
-                </div>
-                {isDropdownOpen && (
-                  <ul className="select-options absolute mt-2 left-0 w-32 border bg-white rounded-lg shadow-md">
-                    {languageOptions.map((option) => (
-                      <li
-                        key={option.value}
-                        onClick={() => handleLanguageChange(option.value)}
-                        className="px-4 py-2 cursor-pointer hover:bg-gray-200"
-                      >
-                        {option.label}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+            </div>
+
+            <div className="custom-select inline-block relative">
+              <div
+                className={`select-header flex items-center ${
+                  isDropdownOpen ? "open" : ""
+                }`}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <img
+                  className="w-7 h-7 rounded-full"
+                  src={selectedLanguage.flag}
+                  alt={selectedLanguage.value}
+                />
+                <span className="text-white">{selectedLanguage.label}</span>
               </div>
+              {isDropdownOpen && (
+                <ul className="select-options absolute mt-2 left-0 w-32 border bg-white rounded-lg shadow-md">
+                  {languageOptions.map((option) => (
+                    <li
+                      key={option.value}
+                      onClick={() => handleLanguageChange(option.value)}
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                    >
+                      {option.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>

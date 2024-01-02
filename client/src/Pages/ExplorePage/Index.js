@@ -227,10 +227,11 @@ const Index = () => {
             <p
               key={pageNumber}
               onClick={() => handlePageClick(pageNumber)}
-              className={`pagination-number ${selectedPage === pageNumber
-                ? "bg-primary font-bold cursor-pointer text-white w-11 h-11 rounded-full flex justify-center items-center"
-                : "cursor-pointer bg-transparent font-bold w-8 h-8 rounded-full flex justify-center items-center"
-                }`}
+              className={`pagination-number ${
+                selectedPage === pageNumber
+                  ? "bg-primary font-bold cursor-pointer text-white w-11 h-11 rounded-full flex justify-center items-center"
+                  : "cursor-pointer bg-transparent font-bold w-8 h-8 rounded-full flex justify-center items-center"
+              }`}
             >
               {pageNumber}
             </p>

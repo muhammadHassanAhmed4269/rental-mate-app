@@ -129,7 +129,7 @@ const BrowsingPage = () => {
   ];
   const handleFilters = async () => {
     setLoading(true);
-    console.log(startDate);
+    console.log(startDate.toLocaleDateString());
     const day = startDate.toLocaleDateString().split("/")[0];
     const month = startDate.toLocaleDateString().split("/")[1];
     const year = startDate.toLocaleDateString().split("/")[2];

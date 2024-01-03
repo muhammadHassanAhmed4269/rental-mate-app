@@ -14,6 +14,7 @@ import ProductDetailPage from "./Pages/ProductDetailPage/Index";
 import ProfilePage from "./Pages/ProfilePage/Index";
 import BrowsingPage from "./Pages/BrowsingPage";
 import Footer from "./Components/Footer/Index";
+import SignUp from "./Pages/Signup/index";
 function App() {
   return (
     <BrowserRouter>

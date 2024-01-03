@@ -14,7 +14,6 @@ const Index = () => {
     { value: "es", label: "Spanish", flag: Spanish },
     { value: "bn", label: "Bengali", flag: Bengali },
   ];
-
   const categories = [
     "Electronics",
     "Home and Garden",
@@ -23,6 +22,10 @@ const Index = () => {
     "Sports and leisures",
     "Construction Tools",
   ];
+  const handleCategory = (item) => {
+    localStorage.setItem("category", JSON.stringify(item));
+    // navigate("Categories");
+  };
 
   const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -165,47 +168,17 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div class="mx-auto px-5 bg-white mt-3">
-        <ul class="flex  justify-between">
-          <li>
-            <Link
-              to={"/Categories"}
-              class="py-2 px-4 text-black font-semibold "
-            >
-              Electronics
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Home and Garden
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Party
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Film and Photography
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Sports and Leisure
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Construction Tools
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Categories"} class="py-2 px-4 text-black font-semibold">
-              Other
-            </Link>
-          </li>
-        </ul>
+      <div class="mx-auto px-5 bg-white mt-3 flex justify-between">
+        {categories.map((item, index) => (
+          <Link
+            className="p-2 text-black font-semibold"
+            onClick={() => handleCategory(item)}
+            key={index}
+            to={"/Categories"}
+          >
+            {item}
+          </Link>
+        ))}
       </div>
     </div>
   );

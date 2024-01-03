@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
 import BrowsingPic2 from "../../Assets/browsing2.png";
+import { Audio } from "react-loader-spinner";
 
 // Example items, to simulate fetching from another resources.
 // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -121,6 +122,7 @@ function Items({ currentItems, parentClassName, boxWidth, imageHeight }) {
 function GridView({
   itemsPerPage,
   items,
+  loading,
   parentClassName,
   boxWidth,
   imageHeight,
@@ -149,17 +151,34 @@ function GridView({
   return (
     <>
       <div className="col-span-9 bg-[#D6FFD8] px-8 pt-5 pb-0 flex flex-col gap-5">
-        {currentItems.length > 0 ? (
-          <Items
-            currentItems={currentItems}
-            parentClassName={parentClassName}
-            boxWidth={boxWidth}
-            imageHeight={imageHeight}
-          />
-        ) : (
-          <div className="text-center font-semibold text-[20px] justify-center items-center flex h-full">
-            <div>No Products Found </div>
+        {loading ? (
+          <div className="justify-center items-center flex h-full">
+            <Audio
+              height="60"
+              width="60"
+              radius="9"
+              color="green"
+              ariaLabel="loading"
+              wrapperStyle
+              wrapperClass
+            />
           </div>
+        ) : (
+          <>
+            {" "}
+            {items.length > 0 ? (
+              <Items
+                currentItems={currentItems}
+                parentClassName={parentClassName}
+                boxWidth={boxWidth}
+                imageHeight={imageHeight}
+              />
+            ) : (
+              <div className="text-center font-semibold text-[20px] justify-center items-center flex h-full">
+                <div>No Products Found </div>
+              </div>
+            )}
+          </>
         )}
       </div>
       <ReactPaginate

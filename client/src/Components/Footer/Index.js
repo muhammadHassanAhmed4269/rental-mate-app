@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import FooterImg from "../../Assets/footerImg.png";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Footer = () => {
   const categories = [
     "Electronics",
@@ -10,10 +11,10 @@ const Footer = () => {
     "Sports and leisures",
     "Construction Tools",
   ];
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleCategory = (item) => {
     localStorage.setItem("category", JSON.stringify(item));
-    navigate("Categories");
+    // navigate("Categories");
   };
   return (
     <div className="bg-[#4CAF50] w-full h-[50vh] text-white">
@@ -41,13 +42,14 @@ const Footer = () => {
           <div className="flex flex-col">
             <h1 className="text-xl mb-3 mt-16 ml-6 font-bold">Categories</h1>
             {categories.map((item, index) => (
-              <button
+              <Link
                 className="mt-2"
                 onClick={() => handleCategory(item)}
                 key={index}
+                to={"/Categories"}
               >
                 {item}
-              </button>
+              </Link>
             ))}
             {/* <p className="mt-2" onClick={setCategoryName('')}>Home and Garden </p>
             <p className="mt-2" onClick={setCategoryName('')}>Party</p>

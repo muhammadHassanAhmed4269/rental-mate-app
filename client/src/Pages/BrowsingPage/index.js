@@ -32,6 +32,7 @@ const BrowsingPage = () => {
   const [rangeMin, setRangeMin] = useState(300);
   const [rangeMax, setRangeMax] = useState(1100);
   const [prodData, setProdData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const data = [
     {
@@ -126,7 +127,8 @@ const BrowsingPage = () => {
       reviews: 2,
     },
   ];
-  const handleFilters = () => {
+  const handleFilters = async () => {
+    setLoading(true);
     const day = startDate.toLocaleDateString().split("/")[0];
     const month = startDate.toLocaleDateString().split("/")[1];
     const year = startDate.toLocaleDateString().split("/")[2];
@@ -139,11 +141,14 @@ const BrowsingPage = () => {
       verficationStatus: status,
       availableDays: days,
     };
-    axios
+    await axios
       .get("https://rental-mate-backend.vercel.app/products/filter", {
         params: params,
       })
-      .then((res) => setProdData(res.data))
+      .then((res) => {
+        setProdData(res.data);
+        setLoading(false);
+      })
       .catch((err) => console.log(err));
   };
   // if (navigator.geolocation) {
@@ -154,7 +159,10 @@ const BrowsingPage = () => {
   useEffect(() => {
     axios
       .get("https://rental-mate-backend.vercel.app/products/filter")
-      .then((res) => setProdData(res.data))
+      .then((res) => {
+        setProdData(res.data);
+        setLoading(false);
+      })
       .catch((err) => console.log(err));
   }, []);
   return (
@@ -421,7 +429,7 @@ const BrowsingPage = () => {
           </button>
         </div>
         {enableListView ? (
-          <ListView itemsPerPage={5} items={prodData} />
+          <ListView itemsPerPage={5} items={prodData} loading={loading} />
         ) : (
           <GridView
             parentClassName="grid grid-cols-4 justify-between px-5"
@@ -429,6 +437,7 @@ const BrowsingPage = () => {
             imageHeight="h-[120px]"
             itemsPerPage={12}
             items={prodData}
+            loading={loading}
           />
         )}
       </div>

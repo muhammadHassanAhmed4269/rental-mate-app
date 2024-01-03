@@ -34,105 +34,13 @@ const BrowsingPage = () => {
   const [prodData, setProdData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const data = [
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-    {
-      title: "SONY high resolution camera-92",
-      rating: 3,
-      price: "Price",
-      zipcode: "20001",
-      reviews: 2,
-    },
-  ];
   const options = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   };
-
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log(token);
   const handleFilters = async () => {
     setLoading(true);
 
@@ -155,6 +63,7 @@ const BrowsingPage = () => {
     await axios
       .get("https://rental-mate-backend.vercel.app/products/filter", {
         params: params,
+        headers: { Authorization: `${token}` },
       })
       .then((res) => {
         setProdData(res.data);
@@ -169,7 +78,9 @@ const BrowsingPage = () => {
   // }
   useEffect(() => {
     axios
-      .get("https://rental-mate-backend.vercel.app/products/filter")
+      .get("https://rental-mate-backend.vercel.app/products/filter", {
+        headers: { Authorization: `${token}` },
+      })
       .then((res) => {
         setProdData(res.data);
         setLoading(false);

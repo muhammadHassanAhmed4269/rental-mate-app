@@ -133,6 +133,7 @@ const BrowsingPage = () => {
     const month = startDate.toLocaleDateString().split("/")[1];
     const year = startDate.toLocaleDateString().split("/")[2];
     const date = `${year}-${month}-${day}`;
+    console.log(date);
     const range = [rangeMin, rangeMax];
     console.log(status, date, days, range);
     const params = {

@@ -127,11 +127,21 @@ const BrowsingPage = () => {
       reviews: 2,
     },
   ];
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
+
   const handleFilters = async () => {
     setLoading(true);
     console.log("day", startDate.getDay());
     console.log("month", startDate.getMonth());
     console.log("year", startDate.getFullYear());
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+      startDate
+    );
+    console.log("dateeee", formattedDate);
     const day = startDate.toLocaleDateString().split("/")[0];
     const month = startDate.toLocaleDateString().split("/")[1];
     const year = startDate.toLocaleDateString().split("/")[2];

@@ -135,18 +135,15 @@ const BrowsingPage = () => {
 
   const handleFilters = async () => {
     setLoading(true);
-    console.log("day", startDate.getDay());
-    console.log("month", startDate.getMonth());
-    console.log("year", startDate.getFullYear());
+
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
       startDate
     );
     console.log("dateeee", formattedDate);
-    const day = startDate.toLocaleDateString().split("/")[0];
-    const month = startDate.toLocaleDateString().split("/")[1];
-    const year = startDate.toLocaleDateString().split("/")[2];
+    const month = formattedDate.split("/")[0];
+    const day = formattedDate.split("/")[1];
+    const year = formattedDate.split("/")[2];
     const date = `${year}-${month}-${day}`;
-    console.log(date);
     const range = [rangeMin, rangeMax];
     console.log(status, date, days, range);
     const params = {

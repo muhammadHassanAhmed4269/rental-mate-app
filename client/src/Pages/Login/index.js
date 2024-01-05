@@ -237,14 +237,13 @@ const Login = () => {
                 </button>
                 <div>Or</div>
                 <div className="flex items-center gap-5">
-                  <LoginSocialFacebook
-                    appId="1343597356357758"
+                  {/* <LoginSocialFacebook
                     className="shadow-xl rounded-lg"
                     onResolve={(response) => handleFBresponse(response)}
                     onReject={(err) => console.log(err)}
                   >
                     <img className="mt-1" src={facebookIcon} />
-                  </LoginSocialFacebook>
+                  </LoginSocialFacebook> */}
 
                   <button
                     onClick={() => login()}

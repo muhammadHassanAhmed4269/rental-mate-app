@@ -62,7 +62,7 @@ const SignUp = () => {
         .post("https://rental-mate-backend.vercel.app/auth/register", data)
         .then((res) => {
           console.log(res);
-          localStorage.setItem("token", JSON.stringify(res.token));
+          // localStorage.setItem("token", JSON.stringify(res.token));
           navigate("/");
           setMessage("");
         })
@@ -103,7 +103,7 @@ const SignUp = () => {
             <div>
               <div className="space-y-8">
                 <Controller
-                  name="username"
+                  name="name"
                   defaultValue=""
                   control={control}
                   render={({ field }) => (
@@ -134,9 +134,9 @@ const SignUp = () => {
                     required: "Name is required",
                   }}
                 />
-                {errors.username && (
+                {errors.name && (
                   <span className="text-[red] px-6 mb-[-20px] text-[13px]">
-                    {errors.username.message}
+                    {errors.name.message}
                   </span>
                 )}
                 <Controller

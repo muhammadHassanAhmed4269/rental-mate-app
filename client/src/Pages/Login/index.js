@@ -42,6 +42,7 @@ const Login = () => {
   });
 
   const handleFBresponse = async (response) => {
+    console.log("responseeeee", response);
     await axios
       .post("https://rental-mate-backend.vercel.app/auth/facebook-login", {
         accessToken: response.data.accessToken,

@@ -5,6 +5,8 @@ import googleIcon from "../../Assets/google.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import { LoginSocialFacebook } from "reactjs-social-login";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(true);
@@ -15,6 +17,47 @@ const Login = () => {
     formState: { errors, isValid },
   } = useForm({ mode: "all" });
   const [message, setMessage] = useState("");
+
+  const login = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      console.log(codeResponse);
+      await axios
+        .post("https://rental-mate-backend.vercel.app/auth/google-login", {
+          accessToken: codeResponse.access_token,
+        })
+        .then((res) => {
+          console.log(res.data.token);
+          localStorage.setItem("token", JSON.stringify(res.data.token));
+          setMessage("");
+          navigate("/Browsing");
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          setMessage(err.response.data.message);
+          console.log(err);
+        });
+    },
+    flow: "implicit",
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  const handleFBresponse = async (response) => {
+    await axios
+      .post("https://rental-mate-backend.vercel.app/auth/google-facebook", {
+        accessToken: response.data.accessToken,
+      })
+      .then((res) => {
+        console.log(res.data.token);
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        setMessage("");
+        navigate("/Browsing");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        setMessage(err.response.data.message);
+        console.log(err);
+      });
+  };
   const onSubmit = async (data) => {
     console.log(data);
     try {
@@ -193,14 +236,26 @@ const Login = () => {
                 </button>
                 <div>Or</div>
                 <div className="flex items-center gap-5">
-                  <button className="shadow-lg rounded-lg">
+                  <LoginSocialFacebook
+                    appId="1343597356357758"
+                    className="shadow-xl rounded-lg"
+                    onResolve={(response) => handleFBresponse(response)}
+                    onReject={(err) => console.log(err)}
+                  >
                     <img className="mt-1" src={facebookIcon} />
-                  </button>
-                  <button className="shadow-xl rounded-lg">
+                  </LoginSocialFacebook>
+
+                  <button
+                    onClick={() => login()}
+                    className="shadow-xl rounded-lg"
+                  >
                     <img src={googleIcon} />
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="text-center text-[red] px-6 mb-[-20px] text-[15px]">
+              {message}
             </div>
           </div>
         </div>

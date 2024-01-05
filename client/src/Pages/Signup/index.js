@@ -20,7 +20,7 @@ const SignUp = () => {
     console.log("aaaaaaaaaaaaaaaaaaaaa", response);
     await axios
       .post("https://rental-mate-backend.vercel.app/auth/facebook-login", {
-        accessToken: response.authResponse.accessToken,
+        accessToken: response.data.accessToken,
       })
       .then((res) => {
         localStorage.setItem("token", JSON.stringify(res.data.token));

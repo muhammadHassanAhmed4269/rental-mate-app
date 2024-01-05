@@ -17,6 +17,7 @@ const SignUp = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handleFBresponse = async (response) => {
+    console.log(response);
     await axios
       .post("https://rental-mate-backend.vercel.app/auth/facebook-login", {
         accessToken: response.authResponse.accessToken,

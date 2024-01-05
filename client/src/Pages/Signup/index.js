@@ -17,13 +17,12 @@ const SignUp = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handleFBresponse = async (response) => {
-    console.log(response);
+    console.log("aaaaaaaaaaaaaaaaaaaaa", response.authResponse);
     await axios
       .post("https://rental-mate-backend.vercel.app/auth/facebook-login", {
         accessToken: response.authResponse.accessToken,
       })
       .then((res) => {
-        console.log(res.data.token);
         localStorage.setItem("token", JSON.stringify(res.data.token));
         setMessage("");
         navigate("/Browsing");

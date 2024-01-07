@@ -3,16 +3,74 @@ import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
 import BrowsingPic2 from "../../Assets/browsing2.png";
 import { Audio } from "react-loader-spinner";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  addToWishlist,
+  calculateCartPrice,
+  deleteFromCart,
+} from "../../redux/Main/mainSlice";
+import { Alert } from "@mui/material";
 // Example items, to simulate fetching from another resources.
 // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-function Items({ currentItems }) {
+function Items({ currentItems, deleteBtn }) {
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  const handleCart = async (currentItems, index) => {
+    dispatch(addToCart(currentItems[index]));
+    setShowAlert(true);
+    setAlertMessage("Item Added to Cart Successfully");
+    setSeverity("success");
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 1000);
+  };
+  const handleDelete = (index) => {
+    dispatch(deleteFromCart(index));
+    dispatch(calculateCartPrice());
+  };
+  const handleWishlist = (item) => {
+    console.log(item);
+    const matchedItem = wishlist.find((elem) => elem._id == item._id);
+    if (!matchedItem) {
+      dispatch(addToWishlist(item));
+      setShowAlert(true);
+      setAlertMessage("Item Added to Wishlist Successfully");
+      setSeverity("success");
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 1000);
+    } else {
+      setShowAlert(true);
+      setAlertMessage("Item Already in Wishlist");
+      setSeverity("error");
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 500);
+    }
+  };
   return (
     <>
+      {showAlert && (
+        <Alert
+          onClose={() => {
+            setShowAlert(false);
+          }}
+          severity={severity}
+        >
+          {alertMessage}
+        </Alert>
+      )}
       {currentItems &&
         currentItems.map((item, index) => (
-          <div key={index} className="bg-white  flex gap-4 px-2 py-2">
+          <div
+            key={index}
+            className={`bg-white flex gap-4 px-2 py-2 shadow-xl`}
+          >
             <img
               className="h-[110px] w-[120px] rounded-2xl "
               src={BrowsingPic2}
@@ -84,49 +142,74 @@ function Items({ currentItems }) {
                 </div>
               </div>
               <div className="flex gap-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="23"
-                  height="23"
-                  viewBox="0 0 31 31"
-                  fill="none"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M15.3208 7.62903C13.033 4.96282 9.21001 4.13885 6.34352 6.5803C3.47702 9.02174 3.07346 13.1037 5.32454 15.9912C7.19615 18.3919 12.8603 23.4554 14.7167 25.0943C14.9244 25.2776 15.0282 25.3693 15.1494 25.4053C15.2551 25.4367 15.3708 25.4367 15.4765 25.4053C15.5977 25.3693 15.7015 25.2776 15.9092 25.0943C17.7656 23.4554 23.4297 18.3919 25.3014 15.9912C27.5524 13.1037 27.1981 8.99606 24.2823 6.5803C21.3666 4.16453 17.6086 4.96282 15.3208 7.62903Z"
-                    stroke="black"
-                    stroke-width="1.90714"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="23"
-                  height="23"
-                  viewBox="0 0 31 31"
-                  fill="none"
-                >
-                  <g clip-path="url(#clip0_1396_5313)">
+                <button onClick={() => handleWishlist(item)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="23"
+                    viewBox="0 0 31 31"
+                    fill="none"
+                  >
                     <path
                       fill-rule="evenodd"
                       clip-rule="evenodd"
-                      d="M22.9922 25.746C21.9394 25.746 21.085 26.6004 21.085 27.6531C21.085 28.7059 21.9394 29.5603 22.9922 29.5603C24.0449 29.5603 24.8993 28.7059 24.8993 27.6531C24.8993 26.6004 24.0449 25.746 22.9922 25.746ZM13.4564 25.746C12.4037 25.746 11.5493 26.6004 11.5493 27.6531C11.5493 28.7059 12.4037 29.5603 13.4564 29.5603C14.5092 29.5603 15.3636 28.7059 15.3636 27.6531C15.3636 26.6004 14.5092 25.746 13.4564 25.746ZM25.8529 20.0246C25.8529 21.0773 24.9985 21.9317 23.9457 21.9317H13.4564C12.4037 21.9317 11.5493 21.0773 11.5493 20.0246L9.95971 10.4888H28.2368L25.8529 20.0246ZM9.61355 8.5817L7.2344 0.953125H1.06002C0.532692 0.953125 0.106445 1.38033 0.106445 1.9067C0.106445 2.43402 0.532692 2.86027 1.06002 2.86027H5.82787L7.74549 8.5817H7.73502L9.64216 20.0246C9.64216 22.131 11.35 23.8388 13.4564 23.8388H23.9457C26.0522 23.8388 27.76 22.131 27.76 20.0246L30.6207 8.5817H9.61355Z"
-                      fill="black"
+                      d="M15.3208 7.62903C13.033 4.96282 9.21001 4.13885 6.34352 6.5803C3.47702 9.02174 3.07346 13.1037 5.32454 15.9912C7.19615 18.3919 12.8603 23.4554 14.7167 25.0943C14.9244 25.2776 15.0282 25.3693 15.1494 25.4053C15.2551 25.4367 15.3708 25.4367 15.4765 25.4053C15.5977 25.3693 15.7015 25.2776 15.9092 25.0943C17.7656 23.4554 23.4297 18.3919 25.3014 15.9912C27.5524 13.1037 27.1981 8.99606 24.2823 6.5803C21.3666 4.16453 17.6086 4.96282 15.3208 7.62903Z"
+                      stroke="black"
+                      stroke-width="1.90714"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
                     />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1396_5313">
-                      <rect
-                        width="30.5143"
-                        height="30.5143"
-                        fill="white"
-                        transform="translate(0.106445)"
+                  </svg>
+                </button>
+
+                {deleteBtn ? (
+                  <button onClick={() => handleDelete(index)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M9 7C9 6.20435 9.31607 5.44129 9.87868 4.87868C10.4413 4.31607 11.2044 4 12 4C12.7956 4 13.5587 4.31607 14.1213 4.87868C14.6839 5.44129 15 6.20435 15 7M9 7H15M9 7H6M15 7H18M6 7H4M6 7V18C6 18.5304 6.21071 19.0391 6.58579 19.4142C6.96086 19.7893 7.46957 20 8 20H16C16.5304 20 17.0391 19.7893 17.4142 19.4142C17.7893 19.0391 18 18.5304 18 18V7M18 7H20"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                       />
-                    </clipPath>
-                  </defs>
-                </svg>
+                    </svg>
+                  </button>
+                ) : (
+                  <button onClick={() => handleCart(currentItems, index)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="23"
+                      height="23"
+                      viewBox="0 0 31 31"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_1396_5313)">
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22.9922 25.746C21.9394 25.746 21.085 26.6004 21.085 27.6531C21.085 28.7059 21.9394 29.5603 22.9922 29.5603C24.0449 29.5603 24.8993 28.7059 24.8993 27.6531C24.8993 26.6004 24.0449 25.746 22.9922 25.746ZM13.4564 25.746C12.4037 25.746 11.5493 26.6004 11.5493 27.6531C11.5493 28.7059 12.4037 29.5603 13.4564 29.5603C14.5092 29.5603 15.3636 28.7059 15.3636 27.6531C15.3636 26.6004 14.5092 25.746 13.4564 25.746ZM25.8529 20.0246C25.8529 21.0773 24.9985 21.9317 23.9457 21.9317H13.4564C12.4037 21.9317 11.5493 21.0773 11.5493 20.0246L9.95971 10.4888H28.2368L25.8529 20.0246ZM9.61355 8.5817L7.2344 0.953125H1.06002C0.532692 0.953125 0.106445 1.38033 0.106445 1.9067C0.106445 2.43402 0.532692 2.86027 1.06002 2.86027H5.82787L7.74549 8.5817H7.73502L9.64216 20.0246C9.64216 22.131 11.35 23.8388 13.4564 23.8388H23.9457C26.0522 23.8388 27.76 22.131 27.76 20.0246L30.6207 8.5817H9.61355Z"
+                          fill="black"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1396_5313">
+                          <rect
+                            width="30.5143"
+                            height="30.5143"
+                            fill="white"
+                            transform="translate(0.106445)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -225,4 +308,4 @@ function ListView({ itemsPerPage, items, loading }) {
     </>
   );
 }
-export default ListView;
+export { ListView, Items };

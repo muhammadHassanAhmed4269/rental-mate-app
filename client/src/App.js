@@ -11,6 +11,7 @@ import WishlistPage from "./Pages/WishlistPage/Index";
 import ExplorePage from "./Pages/ExplorePage/Index";
 import CartPage from "./Pages/CartPage/Index";
 import ProductDetailPage from "./Pages/ProductDetailPage/Index";
+import Navbar from "./Components/Navbar";
 import ProfilePage from "./Pages/ProfilePage/Index";
 import BrowsingPage from "./Pages/BrowsingPage";
 import Footer from "./Components/Footer/Index";
@@ -36,7 +37,13 @@ function App() {
             <Route element={<BrowsingPage />} path="/Browsing" />
           </Route>
           <Route element={<PublicRoute />}>
-            <Route element={<BrowsingPage />} path="/Categories" />
+            <Route element={<CategoriesPage />} path="/Categories" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<WishlistPage />} path="/wishlist" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<CartPage />} path="/cart" />
           </Route>
           {/* <Route path="/" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
@@ -51,6 +58,7 @@ function App() {
           <Route path="/Product-detail" element={<ProductDetailPage />} />
           <Route path="/Profile" element={<ProfilePage />} /> */}
           <Route element={<Footer />} />
+          <Route element={<Navbar />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>

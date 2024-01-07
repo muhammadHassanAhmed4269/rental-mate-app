@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/index";
 // import CategoryBanner from "../../Assets/CategoryBanner.png";
 import CategoryCard from "../../Components/CategoryCard/Index";
 import WishlistCard from "../../Components/WishlistCard/Index";
 import Footer from "../../Components/Footer/Index";
+import { GridItems } from "../../Components/BrowsingPagination/GridView";
+import { useSelector } from "react-redux";
+import axios from "axios";
 // import { Link } from "react-router-dom";
 const Index = () => {
+  const [moreToRentData, setMoreToRentData] = useState([]);
+  const token = useSelector((state) => state.userID);
+  const wishlist = useSelector((state) => state.wishlist);
+  useEffect(() => {
+    axios
+      .get("https://rental-mate-backend.vercel.app/products/filter", {
+        headers: { Authorization: `${token}` },
+      })
+      .then((res) => {
+        setMoreToRentData(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div>
       <Navbar />
@@ -15,7 +31,7 @@ const Index = () => {
         </div>
         <div className="flex justify-between items-center my-12">
           <div className="text-2xl font-semibold">
-            Wishlist (4)
+            Wishlist ({wishlist.length})
           </div>
           <div className="">
             <button class="w-56 h-11 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold">
@@ -24,47 +40,34 @@ const Index = () => {
           </div>
         </div>
         <div className="mb-10">
-          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-6">
-            <div className="">
-              <WishlistCard />
-            </div>
-            <div className="">
-              <WishlistCard />
-            </div>
-            <div className="">
-              <WishlistCard />
-            </div>
-            <div className="">
-              <WishlistCard />
-            </div>
-          </div>
+          <GridItems
+            currentItems={wishlist}
+            parentClassName="grid grid-cols-4  px-5"
+            boxWidth="w-[250px]"
+            imageHeight="h-[150px]"
+            itemsToRender={9999}
+            deleteBtn
+          />
         </div>
         <div className="flex justify-between items-center my-16">
           <div className="text-2xl font-medium flex items-center">
             <div className="w-[15px] h-[30px] bg-primary rounded-sm block mr-2"></div>
-            <div className="font-">Move to Rent</div>
+            <div className="font-semibold">Move to Rent</div>
           </div>
           <div className="">
             <button class="px-12 h-11 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold">
-              See All{""}
+              See All
             </button>
           </div>
         </div>
         <div className="mb-10">
-          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-6">
-            <div className="">
-              <CategoryCard />
-            </div>
-            <div className="">
-              <CategoryCard />
-            </div>
-            <div className="">
-              <CategoryCard />
-            </div>
-            <div className="">
-              <CategoryCard />
-            </div>
-          </div>
+          <GridItems
+            currentItems={moreToRentData}
+            parentClassName="grid grid-cols-4  px-5"
+            boxWidth="w-[250px]"
+            imageHeight="h-[150px]"
+            itemsToRender={4}
+          />
         </div>
       </div>
       <Footer />

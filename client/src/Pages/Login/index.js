@@ -7,10 +7,13 @@ import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
+import { useDispatch } from "react-redux";
+import { storeUserID } from "../../redux/Main/mainSlice";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -27,7 +30,7 @@ const Login = () => {
         })
         .then((res) => {
           console.log(res.data.token);
-          localStorage.setItem("token", JSON.stringify(res.data.token));
+          dispatch(storeUserID(res.data.token));
           setMessage("");
           navigate("/Browsing");
         })
@@ -49,7 +52,7 @@ const Login = () => {
       })
       .then((res) => {
         console.log(res.data.token);
-        localStorage.setItem("token", JSON.stringify(res.data.token));
+        dispatch(storeUserID(res.data.token));
         setMessage("");
         navigate("/Browsing");
       })
@@ -66,7 +69,7 @@ const Login = () => {
         .post("https://rental-mate-backend.vercel.app/auth/login", data)
         .then((res) => {
           console.log(res.data.token);
-          localStorage.setItem("token", JSON.stringify(res.data.token));
+          dispatch(storeUserID(res.data.token));
           setMessage("");
           navigate("/Browsing");
         })

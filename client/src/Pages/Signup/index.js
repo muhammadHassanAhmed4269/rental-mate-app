@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
+import { storeUserID } from "../../redux/Main/mainSlice";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
   const {
@@ -16,6 +18,7 @@ const SignUp = () => {
   } = useForm({ mode: "all" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleFBresponse = async (response) => {
     console.log("aaaaaaaaaaaaaaaaaaaaa", response);
     await axios
@@ -23,8 +26,9 @@ const SignUp = () => {
         accessToken: response.data.accessToken,
       })
       .then((res) => {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
         setMessage("");
+        dispatch(storeUserID(res.data.token));
+
         navigate("/Browsing");
       })
       .catch((err) => {
@@ -42,7 +46,8 @@ const SignUp = () => {
         })
         .then((res) => {
           console.log(res.data.token);
-          localStorage.setItem("token", JSON.stringify(res.data.token));
+
+          dispatch(storeUserID(res.data.token));
           setMessage("");
           navigate("/Browsing");
         })
@@ -62,7 +67,6 @@ const SignUp = () => {
         .post("https://rental-mate-backend.vercel.app/auth/register", data)
         .then((res) => {
           console.log(res);
-          // localStorage.setItem("token", JSON.stringify(res.token));
           navigate("/");
           setMessage("");
         })

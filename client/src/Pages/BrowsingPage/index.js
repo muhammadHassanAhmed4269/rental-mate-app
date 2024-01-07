@@ -8,12 +8,13 @@ import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 
 import BrowsingPic from "../../Assets/BrowsingPic.svg";
-import ListView from "../../Components/BrowsingPagination/ListView";
-import GridView from "../../Components/BrowsingPagination/GridView";
+import { ListView } from "../../Components/BrowsingPagination/ListView";
+import { GridView } from "../../Components/BrowsingPagination/GridView";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
 const BrowsingPage = () => {
   const daysOption = [
     { label: "7 Days", value: 7 },
@@ -39,7 +40,7 @@ const BrowsingPage = () => {
     month: "2-digit",
     day: "2-digit",
   };
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = useSelector((state) => state.userID);
   console.log(token);
   const handleFilters = async () => {
     setLoading(true);

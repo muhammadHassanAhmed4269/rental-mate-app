@@ -2,7 +2,10 @@ import React, { useRef, useState } from "react";
 import FooterImg from "../../Assets/footerImg.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeCategory } from "../../redux/Main/mainSlice";
 const Footer = () => {
+  const dispatch = useDispatch();
   const categories = [
     "Electronics",
     "Home and Garden",
@@ -11,10 +14,8 @@ const Footer = () => {
     "Sports and leisures",
     "Construction Tools",
   ];
-  // const navigate = useNavigate();
   const handleCategory = (item) => {
-    localStorage.setItem("category", JSON.stringify(item));
-    // navigate("Categories");
+    dispatch(changeCategory(item));
   };
   return (
     <div className="bg-[#4CAF50] w-full h-[50vh] text-white">

@@ -5,13 +5,15 @@ import CategoryCard from "../../Components/CategoryCard/Index";
 import WishlistCard from "../../Components/WishlistCard/Index";
 import Footer from "../../Components/Footer/Index";
 import { GridItems } from "../../Components/BrowsingPagination/GridView";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { moveAllToCart } from "../../redux/Main/mainSlice";
 // import { Link } from "react-router-dom";
 const Index = () => {
   const [moreToRentData, setMoreToRentData] = useState([]);
   const token = useSelector((state) => state.userID);
   const wishlist = useSelector((state) => state.wishlist);
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get("https://rental-mate-backend.vercel.app/products/filter", {
@@ -34,7 +36,12 @@ const Index = () => {
             Wishlist ({wishlist.length})
           </div>
           <div className="">
-            <button class="w-56 h-11 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold">
+            <button
+              onClick={() => {
+                dispatch(moveAllToCart());
+              }}
+              class="w-56 h-11 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold"
+            >
               Move All To Cart{" "}
             </button>
           </div>
@@ -60,7 +67,7 @@ const Index = () => {
             </button>
           </div>
         </div>
-        <div className="mb-10">
+        <div className="mb-10 ">
           <GridItems
             currentItems={moreToRentData}
             parentClassName="grid grid-cols-4  px-5"

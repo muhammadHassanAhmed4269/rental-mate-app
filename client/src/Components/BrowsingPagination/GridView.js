@@ -59,7 +59,7 @@ function GridItems({
   };
 
   return (
-    <>
+    <div className="flex-col flex gap-5">
       {showAlert && (
         <Alert
           onClose={() => {
@@ -210,7 +210,7 @@ function GridItems({
             }
           })}
       </div>
-    </>
+    </div>
   );
 }
 

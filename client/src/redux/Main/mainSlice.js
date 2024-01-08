@@ -46,6 +46,9 @@ const mainSlice = createSlice({
         state.cartPrice = 0;
       }
     },
+    moveAllToCart: (state, action) => {
+      state.cart = [...state.cart, ...state.wishlist];
+    },
   },
 });
 export const {
@@ -57,5 +60,6 @@ export const {
   deleteWholeCart,
   calculateCartPrice,
   addToWishlist,
+  moveAllToCart,
 } = mainSlice.actions;
 export default mainSlice.reducer;

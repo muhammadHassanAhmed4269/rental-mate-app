@@ -8,6 +8,7 @@ import { GridItems } from "../../Components/BrowsingPagination/GridView";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { moveAllToCart } from "../../redux/Main/mainSlice";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 const Index = () => {
   const [moreToRentData, setMoreToRentData] = useState([]);
@@ -47,14 +48,20 @@ const Index = () => {
           </div>
         </div>
         <div className="mb-10">
-          <GridItems
-            currentItems={wishlist}
-            parentClassName="grid grid-cols-4  px-5"
-            boxWidth="w-[250px]"
-            imageHeight="h-[150px]"
-            itemsToRender={9999}
-            deleteBtn
-          />
+          {wishlist.length > 0 ? (
+            <GridItems
+              currentItems={wishlist}
+              parentClassName="grid grid-cols-4  px-5"
+              boxWidth="w-[250px]"
+              imageHeight="h-[150px]"
+              itemsToRender={9999}
+              deleteBtn
+            />
+          ) : (
+            <div className="py-20 text-2xl font-semibold text-center">
+              Wishlist Empty
+            </div>
+          )}
         </div>
         <div className="flex justify-between items-center my-16">
           <div className="text-2xl font-medium flex items-center">
@@ -62,9 +69,12 @@ const Index = () => {
             <div className="font-semibold">Move to Rent</div>
           </div>
           <div className="">
-            <button class="px-12 h-11 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold">
+            <Link
+              to={"/Browsing"}
+              class="px-12 py-3 rounded-xl bg-primaryLig border border-grayBr text-black font-semibold"
+            >
               See All
-            </button>
+            </Link>
           </div>
         </div>
         <div className="mb-10 ">

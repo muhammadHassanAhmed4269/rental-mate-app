@@ -14,7 +14,40 @@ import testimonial1 from "../../Assets/testimonial1.png";
 import testimonial2 from "../../Assets/testimonial2.png";
 import testimonial3 from "../../Assets/testimonial3.png";
 import { Link } from "react-router-dom";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import "react-horizontal-scrolling-menu/dist/styles.css";
+import { changeCategory } from "../../redux/Main/mainSlice";
+import { useDispatch } from "react-redux";
+
 const Index = () => {
+  const dispatch = useDispatch();
+  const [selected, setSelected] = React.useState([]);
+  const [position, setPosition] = React.useState(0);
+  const categoriesData = [
+    { title: "Electronics", imageSource: Electronics },
+    { title: "Home and Garden", imageSource: homegarden },
+    { title: "Party", imageSource: party },
+    { title: "Film and Photography", imageSource: film },
+    { title: "Sports and leisures", imageSource: sport },
+    { title: "Construction Tools", imageSource: construction },
+  ];
+  const handleCategory = (item) => {
+    dispatch(changeCategory(item));
+  };
+  const isItemSelected = (id) => !!selected.find((el) => el === id);
+
+  const handleClick =
+    (id) =>
+    ({ getItemById, scrollToItem }) => {
+      const itemSelected = isItemSelected(id);
+
+      setSelected((currentSelected) =>
+        itemSelected
+          ? currentSelected.filter((el) => el !== id)
+          : currentSelected.concat(id)
+      );
+    };
+
   const containerStyle = {
     position: "relative",
     height: "100vh",
@@ -24,17 +57,90 @@ const Index = () => {
     backgroundRepeat: "no-repeat",
   };
 
+  const customArrowStyles = {
+    fontSize: "24px",
+    color: "#fff",
+    borderRadius: "50%",
+    padding: "8px",
+  };
+  function LeftArrow() {
+    const { isFirstItemVisible, scrollPrev } =
+      React.useContext(VisibilityContext);
+
+    return (
+      <button style={customArrowStyles} onClick={() => scrollPrev()}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="35"
+          height="35"
+          viewBox="0 0 45 45"
+          fill="none"
+        >
+          <circle cx="22.5" cy="22.5" r="22.5" fill="#DFE3E6" />
+          <path
+            d="M27.7117 10.4616L15.6842 20.4038C15.4688 20.5966 15.2966 20.832 15.1788 21.0949C15.0609 21.3578 15 21.6424 15 21.9301C15 22.2179 15.0609 22.5024 15.1788 22.7653C15.2966 23.0282 15.4688 23.2637 15.6842 23.4564L27.7117 33.3986C27.9137 33.5659 28.147 33.6921 28.3982 33.7699C28.6495 33.8478 28.9137 33.8758 29.1758 33.8523C29.4379 33.8289 29.6928 33.7545 29.926 33.6333C30.1591 33.5121 30.3659 33.3466 30.5345 33.1462C30.7032 32.9457 30.8303 32.7143 30.9088 32.4651C30.9873 32.2159 31.0155 31.9539 30.9919 31.6938C30.9683 31.4338 30.8932 31.181 30.7711 30.9497C30.649 30.7185 30.4821 30.5133 30.28 30.3461L20.1005 21.9301L30.28 13.5142C30.4821 13.3469 30.649 13.1418 30.7711 12.9105C30.8932 12.6793 30.9683 12.4264 30.9919 12.1664C31.0155 11.9064 30.9873 11.6443 30.9088 11.3951C30.8303 11.1459 30.7032 10.9145 30.5345 10.7141C30.3659 10.5136 30.1591 10.3481 29.926 10.2269C29.6928 10.1058 29.4379 10.0314 29.1758 10.0079C28.9137 9.98448 28.6495 10.0125 28.3982 10.0903C28.147 10.1682 27.9137 10.2943 27.7117 10.4616Z"
+            fill="black"
+          />
+        </svg>
+      </button>
+    );
+  }
+
+  function RightArrow() {
+    const { isLastItemVisible, scrollNext } =
+      React.useContext(VisibilityContext);
+
+    return (
+      <button style={customArrowStyles} onClick={() => scrollNext()}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="35"
+          height="35"
+          viewBox="0 0 45 45"
+          fill="none"
+        >
+          <circle
+            cx="22.5"
+            cy="22.5"
+            r="22.5"
+            transform="rotate(-180 22.5 22.5)"
+            fill="#DFE3E6"
+          />
+          <path
+            d="M17.2883 34.5384L29.3158 24.5962C29.5312 24.4034 29.7034 24.168 29.8212 23.9051C29.9391 23.6422 30 23.3576 30 23.0699C30 22.7821 29.9391 22.4976 29.8212 22.2347C29.7034 21.9718 29.5312 21.7363 29.3158 21.5436L17.2883 11.6014C17.0863 11.4341 16.853 11.3079 16.6018 11.2301C16.3505 11.1522 16.0863 11.1242 15.8242 11.1477C15.5621 11.1711 15.3072 11.2455 15.074 11.3667C14.8409 11.4879 14.6341 11.6534 14.4655 11.8538C14.2968 12.0543 14.1697 12.2857 14.0912 12.5349C14.0127 12.7841 13.9845 13.0461 14.0081 13.3062C14.0317 13.5662 14.1068 13.819 14.2289 14.0503C14.351 14.2815 14.5179 14.4867 14.72 14.6539L24.8995 23.0699L14.72 31.4858C14.5179 31.6531 14.351 31.8582 14.2289 32.0895C14.1068 32.3207 14.0317 32.5736 14.0081 32.8336C13.9845 33.0936 14.0127 33.3557 14.0912 33.6049C14.1697 33.8541 14.2968 34.0855 14.4655 34.2859C14.6341 34.4864 14.8409 34.6519 15.074 34.7731C15.3072 34.8942 15.5621 34.9686 15.8242 34.9921C16.0863 35.0155 16.3505 34.9875 16.6018 34.9097C16.853 34.8318 17.0863 34.7057 17.2883 34.5384Z"
+            fill="black"
+          />
+        </svg>
+      </button>
+    );
+  }
+
+  function Card({ item }) {
+    return (
+      <Link to={"/Categories"} onClick={() => handleCategory(item.title)}>
+        <div className="w-[261px] h-[293px] flex flex-col items-center flex-shrink-0 rounded-md bg-white shadow-lg ">
+          <img
+            className="w-[261px] h-[200px] rounded-t-md"
+            src={item.imageSource}
+            alt="Box"
+          />
+          <p className="font-medium text-xl text-center py-6">{item.title}</p>
+        </div>
+      </Link>
+    );
+  }
+
   return (
     <div>
       <Navbar />
 
       <Slider />
-      <p className="font-semibold text-3xl ml-16 mt-4">
+      <p className="font-semibold text-3xl ml-16 mt-6">
         How Rental Mate works?
       </p>
       <div className="flex mt-24 w-3/4 mx-auto justify-between">
         <div class="flex flex-col justify-center w-72 ">
-          <div class="w-32 h-32 bg-[#4CAF50] justify-center items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32 bg-[#01A664] justify-center items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -60,7 +166,7 @@ const Index = () => {
           </div>
         </div>
         <div class="flex flex-col justify-center w-72 ">
-          <div class="w-32 h-32 bg-[#4CAF50] justify-center items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32 bg-[#01A664] justify-center items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -107,7 +213,7 @@ const Index = () => {
           </div>
         </div>
         <div class="flex flex-col justify-center w-72 ">
-          <div class="w-32 h-32  justify-center bg-[#4CAF50] items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32  justify-center bg-[#01A664] items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -136,17 +242,20 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <Link to={"/Listing"} className="w-full mt-16  flex justify-center  ">
-        <button class="w-56 h-11 ml-10  rounded-xl bg-[#4CAF50] text-white font-bold mr-5">
+      <Link
+        to={"/Listing"}
+        className="w-full mt-16 mb-5  flex justify-center  "
+      >
+        <button class="w-56 h-11 ml-10  rounded-xl bg-[#01A664] text-white font-bold mr-5">
           List an item{" "}
         </button>
       </Link>
 
       <div className="w-full bg-[#BDFFC0]  mt-3">
         <p className="font-semibold text-3xl ml-16 pt-10">
-          Explore the categories{" "}
+          Explore the popular categories
         </p>
-        <div className="flex w-11/12 mx-auto justify-between mt-10">
+        {/* <div className="flex w-11/12 mx-auto justify-between mt-10">
           <div className="w-[261px] h-[293px] flex flex-col items-center flex-shrink-0 rounded-md bg-white shadow-md overflow-hidden">
             <img
               className="w-[261px] h-[200px]   rounded-t-md"
@@ -184,8 +293,8 @@ const Index = () => {
               Photography
             </p>
           </div>
-        </div>
-        <div className="flex  w-2/4 pb-20 justify-center mt-10 mx-auto">
+        </div> */}
+        {/* <div className="flex  w-2/4 pb-20 justify-center mt-10 mx-auto">
           <div className="w-[261px] h-[293px] mr-28 flex flex-col items-center flex-shrink-0 rounded-md bg-white shadow-md overflow-hidden">
             <img
               className="w-[261px] h-[200px]   rounded-t-md"
@@ -206,14 +315,24 @@ const Index = () => {
               Construction <br /> Tool
             </p>
           </div>
-        </div>
+        </div> */}
+        <ScrollMenu
+          scrollContainerClassName="py-10"
+          itemClassName="mx-5"
+          LeftArrow={LeftArrow}
+          RightArrow={RightArrow}
+        >
+          {categoriesData.map((item, index) => (
+            <Card key={index} item={item} />
+          ))}
+        </ScrollMenu>
       </div>
       <p className="font-semibold text-3xl ml-16 mt-16">
         Demystifying the art of borrowing{" "}
       </p>
       <div className="flex mt-24 w-3/4 mx-auto items-center justify-between">
         <div class="flex flex-col justify-center w-72 ">
-          <div class="w-32 h-32 bg-[#4CAF50] justify-center items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32 bg-[#01A664] justify-center items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -236,7 +355,7 @@ const Index = () => {
           </div>
         </div>
         <div class="flex flex-col justify-center w-72 ">
-          <div class="w-32 h-32 bg-[#4CAF50] justify-center items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32 bg-[#01A664] justify-center items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -264,7 +383,7 @@ const Index = () => {
           </div>
         </div>
         <div class="flex flex-col justify-center mb-11 w-72 ">
-          <div class="w-32 h-32  justify-center bg-[#4CAF50] items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32  justify-center bg-[#01A664] items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="73"
@@ -298,7 +417,7 @@ const Index = () => {
           </div>
         </div>
         <div class="flex flex-col justify-center w-72 mb-5 ">
-          <div class="w-32 h-32  justify-center bg-[#4CAF50] items-center flex rounded-md mx-auto">
+          <div class="w-32 h-32  justify-center bg-[#01A664] items-center flex rounded-md mx-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="72"
@@ -332,7 +451,7 @@ const Index = () => {
         </div>
       </div>
       <div className="w-full mt-16  flex justify-center  ">
-        <button class="w-56 h-11 ml-10  rounded-xl bg-[#4CAF50] text-white font-bold mr-5">
+        <button class="w-56 h-11 ml-10  rounded-xl bg-[#01A664] text-white font-bold mr-5">
           Browse{" "}
         </button>
       </div>
@@ -340,18 +459,18 @@ const Index = () => {
         <div className="h-full flex justify-center items-center">
           <div className=" flex items-center justify-center ">
             <div>
-              <div className="flex items-center">
+              <div className="flex items-center leading-7">
                 <img src={ecology} alt="" />
-                <div className="ml-6">
+                <div className="ml-6 flex flex-col gap-5 w-[500px]">
                   <h1 className="text-4xl font-semibold">
                     Your contribution to <br />
                     save the environment .
                   </h1>
                   <p>
-                    Rental Mate not only help you to earn but borrowing <br />{" "}
-                    items from other people is a sustainable and <br />{" "}
-                    environmentally-friendly practice that can help <br />{" "}
-                    reduce waste and promote a more eco-conscious br lifestyle
+                    Rental Mate not only help you to earn but borrowing items
+                    from other people is a sustainable and
+                    environmentally-friendly practice that can help reduce waste
+                    and promote a more eco-conscious br lifestyle
                   </p>
                 </div>
               </div>
@@ -359,15 +478,14 @@ const Index = () => {
             <div>
               <div className="flex items-center">
                 <img src={Handshake} alt="" />
-                <div className="ml-6">
+                <div className="ml-6 flex flex-col gap-5 leading-7 w-[400px] text-left">
                   <h1 className="text-4xl font-semibold">
                     Why buy when <br />
                     you can borrow?{" "}
                   </h1>
                   <p>
-                    Borrowing items saves money by avoiding <br /> the need to
-                    purchase items that are only <br /> occasionally used,
-                    reducing overall <br />
+                    Borrowing items saves money by avoiding the need to purchase
+                    items that are only occasionally used, reducing overall
                     spending.
                   </p>
                 </div>
@@ -377,13 +495,15 @@ const Index = () => {
         </div>
       </div>
       <div className="flex w-11/12 mx-auto mt-24 pb-24 justify-between">
-        <div className="w-[385px] h-[384px] bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
+        <div className="w-[385px] h-[384px] shadow-xl bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
           <img
             className="w-[187px] h-[179px] rounded-full"
             src={testimonial1}
             alt="User"
           />
-          <p className="text-center mt-4 text-gray-700">David, London</p>
+          <p className="text-center mt-4 font-semibold text-black">
+            David, London
+          </p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="141"
@@ -417,13 +537,15 @@ const Index = () => {
             really easy to <br /> collect and return equipment."
           </p>
         </div>
-        <div className="w-[385px] h-[384px] bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
+        <div className="w-[385px] h-[384px] shadow-xl  bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
           <img
             className="w-[187px] h-[179px] rounded-full"
             src={testimonial2}
             alt="User"
           />
-          <p className="text-center mt-4 text-gray-700">Emily,Germany</p>
+          <p className="text-center mt-4 text-black font-semibold">
+            Emily,Germany
+          </p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="141"
@@ -457,13 +579,15 @@ const Index = () => {
             great <br /> price and brilliant service!"."
           </p>
         </div>
-        <div className="w-[385px] h-[384px] bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
+        <div className="w-[385px] h-[384px] shadow-xl bg-gray-100 rounded-md p-4 flex flex-col items-center justify-center">
           <img
             className="w-[187px] h-[179px] rounded-full"
             src={testimonial3}
             alt="User"
           />
-          <p className="text-center mt-4 text-gray-700">Zoe,Spain </p>
+          <p className="text-center mt-4 text-black font-semibold">
+            Zoe,Spain{" "}
+          </p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="141"

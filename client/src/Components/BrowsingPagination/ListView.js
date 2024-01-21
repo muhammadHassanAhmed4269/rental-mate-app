@@ -9,12 +9,15 @@ import {
   addToWishlist,
   calculateCartPrice,
   deleteFromCart,
+  productDescription,
 } from "../../redux/Main/mainSlice";
 import { Alert } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 // Example items, to simulate fetching from another resources.
 // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
 function Items({ currentItems, deleteBtn }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist);
   const [showAlert, setShowAlert] = useState(false);
@@ -53,6 +56,10 @@ function Items({ currentItems, deleteBtn }) {
       }, 500);
     }
   };
+  const handleProductClick = (item) => {
+    dispatch(productDescription(item));
+    navigate("/productdetail");
+  };
   return (
     <>
       {showAlert && (
@@ -69,7 +76,8 @@ function Items({ currentItems, deleteBtn }) {
         currentItems.map((item, index) => (
           <div
             key={index}
-            className={`bg-white flex gap-4 px-2 py-2 shadow-xl`}
+            className={`bg-white cursor-pointer flex gap-4 px-2 py-2 shadow-xl`}
+            onClick={() => handleProductClick(item)}
           >
             <img
               className="h-[110px] w-[120px] rounded-2xl "

@@ -251,15 +251,15 @@ const SignUp = () => {
                 </button>
                 <div>Or</div>
                 <div className="flex items-center gap-5">
+                  {/* <LoginSocialFacebook
+                    className="shadow-xl rounded-lg"
+                    onResolve={(response) => handleFBresponse(response)}
+                    onReject={(err) => console.log(err)}
+                >*/}
                   <button>
-                    {/* <LoginSocialFacebook
-                      className="shadow-xl rounded-lg"
-                      onResolve={(response) => handleFBresponse(response)}
-                      onReject={(err) => console.log(err)}
-                    >
-                      <img className="mt-1" src={facebookIcon} />
-                    </LoginSocialFacebook> */}
+                    <img className="mt-1" src={facebookIcon} />
                   </button>
+                  {/* </LoginSocialFacebook>  */}
 
                   <button
                     onClick={() => login()}

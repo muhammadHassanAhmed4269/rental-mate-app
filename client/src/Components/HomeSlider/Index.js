@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Carousel from "nuka-carousel";
 import sliderImg from "../../Assets/sliderImg.png";
+import { Link } from "react-router-dom";
 const Index = () => {
   const slides = [
     {
@@ -9,7 +10,7 @@ const Index = () => {
       description: "Rent anything to evaluate your lifestyle",
       buttonText: "Shop Now",
       textColor: "#fff",
-      bgColor: "#4CAF50",
+      bgColor: "#01A664",
     },
     {
       image: sliderImg,
@@ -18,7 +19,7 @@ const Index = () => {
       title: "Rent,Enjoy,Repeat!",
       description: "Rent anything to evaluate your lifestyle",
       buttonText: "Shop Now",
-      bgColor: "#4CAF50",
+      bgColor: "#01A664",
     },
   ];
   const [isHovered, setIsHovered] = useState(false);
@@ -47,9 +48,8 @@ const Index = () => {
       >
         <Carousel
           autoplay={!isHovered}
-          autoplayInterval={2000}
+          autoplayInterval={5000}
           wrapAround={true}
-          renderBottomCenterControls={() => null}
           renderCenterLeftControls={({ previousSlide }) => (
             <button style={customArrowStyles} onClick={previousSlide}>
               <svg
@@ -71,8 +71,8 @@ const Index = () => {
             <button style={customArrowStyles} onClick={nextSlide}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="45"
-                height="45"
+                width="35"
+                height="35"
                 viewBox="0 0 45 45"
                 fill="none"
               >
@@ -94,10 +94,10 @@ const Index = () => {
           {slides.map((slide, index) => (
             <div key={index}>
               <div
-                className="flex justify-between w-full"
+                className="flex justify-between w-full gap-5"
                 style={{ backgroundColor: slide.bgColor }}
               >
-                <div className="mt-6 pl-24 pt-10">
+                <div className="mt-6 pl-20 pt-10">
                   <h1
                     className="text-4xl font-semibold"
                     style={{ color: slide.textColor }}
@@ -110,24 +110,26 @@ const Index = () => {
                   >
                     {slide.description}
                   </p>
-                  <button className="flex border border-white text-white p-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M3.5 12H20M20 12L13 5M20 12L13 19"
-                        stroke="#FAFAFA"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {slide.buttonText}{" "}
-                  </button>
+                  <Link to={"/Browsing"}>
+                    <button className="flex border border-white text-white p-2 gap-2">
+                      {slide.buttonText}{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M3.5 12H20M20 12L13 5M20 12L13 19"
+                          stroke="#FAFAFA"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
                 </div>
                 <img src={slide.image} alt="Slide" />
               </div>

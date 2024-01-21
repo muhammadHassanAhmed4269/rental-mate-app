@@ -10,7 +10,9 @@ import {
   addToCart,
   addToWishlist,
   deleteFromWishlist,
+  productDescription,
 } from "../../redux/Main/mainSlice";
+import { useNavigate } from "react-router-dom";
 
 function GridItems({
   currentItems,
@@ -21,6 +23,7 @@ function GridItems({
   deleteBtn,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -57,6 +60,10 @@ function GridItems({
   const handleDelete = (index) => {
     dispatch(deleteFromWishlist(index));
   };
+  const handleProductClick = (item) => {
+    dispatch(productDescription(item));
+    navigate("/productdetail");
+  };
 
   return (
     <div className="flex-col flex gap-5">
@@ -77,7 +84,8 @@ function GridItems({
               return (
                 <div
                   key={index}
-                  className={`relative flex flex-col mb-10 items-center ${boxWidth}  bg-white rounded-2xl shadow-xl`}
+                  onClick={() => handleProductClick(item)}
+                  className={`relative cursor-pointer flex flex-col mb-10 items-center ${boxWidth}  bg-white rounded-2xl shadow-xl`}
                 >
                   <img
                     className={`${imageHeight} w-full rounded-2xl `}

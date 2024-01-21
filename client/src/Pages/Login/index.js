@@ -32,7 +32,7 @@ const Login = () => {
           console.log(res.data.token);
           dispatch(storeUserID(res.data.token));
           setMessage("");
-          navigate("/Browsing");
+          navigate("/home");
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -54,7 +54,7 @@ const Login = () => {
         console.log(res.data.token);
         dispatch(storeUserID(res.data.token));
         setMessage("");
-        navigate("/Browsing");
+        navigate("/home");
       })
       .catch((err) => {
         console.log(err.response.data.message);
@@ -71,7 +71,7 @@ const Login = () => {
           console.log(res.data.token);
           dispatch(storeUserID(res.data.token));
           setMessage("");
-          navigate("/Browsing");
+          navigate("/home");
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -244,9 +244,11 @@ const Login = () => {
                     className="shadow-xl rounded-lg"
                     onResolve={(response) => handleFBresponse(response)}
                     onReject={(err) => console.log(err)}
-                  >
+                >*/}
+                  <button>
                     <img className="mt-1" src={facebookIcon} />
-                  </LoginSocialFacebook> */}
+                  </button>
+                  {/* </LoginSocialFacebook>  */}
 
                   <button
                     onClick={() => login()}

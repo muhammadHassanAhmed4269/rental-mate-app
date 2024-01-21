@@ -1,4 +1,4 @@
-import { configureStore, Middle } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import mainReducer from "../redux/Main/mainSlice";
 import {

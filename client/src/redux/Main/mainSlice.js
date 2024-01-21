@@ -5,6 +5,7 @@ const initialState = {
   cart: [],
   cartPrice: null,
   wishlist: [],
+  productDescription: {},
 };
 const mainSlice = createSlice({
   name: "main",
@@ -24,12 +25,12 @@ const mainSlice = createSlice({
     },
     deleteFromCart: (state, action) => {
       state.cart = [
-        ...state.cart.filter((item, index) => index != action.payload),
+        ...state.cart.filter((item, index) => index !== action.payload),
       ];
     },
     deleteFromWishlist: (state, action) => {
       state.wishlist = [
-        ...state.wishlist.filter((item, index) => index != action.payload),
+        ...state.wishlist.filter((item, index) => index !== action.payload),
       ];
     },
     deleteWholeCart: (state, action) => {
@@ -49,10 +50,14 @@ const mainSlice = createSlice({
     moveAllToCart: (state, action) => {
       state.cart = [...state.cart, ...state.wishlist];
     },
+    productDescription: (state, action) => {
+      state.productDescription = action.payload;
+    },
   },
 });
 export const {
   changeCategory,
+  productDescription,
   storeUserID,
   addToCart,
   deleteFromCart,

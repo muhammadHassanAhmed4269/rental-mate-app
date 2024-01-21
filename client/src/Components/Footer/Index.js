@@ -18,7 +18,7 @@ const Footer = () => {
     dispatch(changeCategory(item));
   };
   return (
-    <div className="bg-[#4CAF50] w-full h-[50vh] text-white">
+    <div className="bg-[#01A664] w-full h-[50vh] text-white">
       <div className="flex  items-center h-full ml-16">
         <div className="border-r-2 border-r-white h-3/4 mr-8">
           <div className="border-b-2 border-b-white text-8xl pb-2 ">LOGO</div>
@@ -60,7 +60,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="ml-auto">
-          <img className="-mt-40" src={FooterImg} alt="" />
+          <img className="-mt-40 " src={FooterImg} alt="" />
           <div className="flex justify-between w-1/2 mt-20">
             <svg
               xmlns="http://www.w3.org/2000/svg"

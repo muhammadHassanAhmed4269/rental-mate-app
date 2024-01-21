@@ -46,7 +46,8 @@ const Index = () => {
           </div>
           <img src={AboutImg1} alt="" />
         </div>
-        <div className="mt-16 flex">
+        <div className="mt-16 flex items-center gap-20">
+          <img src={AboutImg2} alt="" />
           <div>
             <h1 className="font-bold text-xl">How does it work?</h1>
             <p className="mt-10 text-xl">
@@ -59,9 +60,8 @@ const Index = () => {
               borrowing
             </p>
           </div>
-          <img src={AboutImg2} alt="" />
         </div>
-        <div className="mt-16 flex">
+        <div className="mt-16 mb-[100px] flex">
           <div>
             <h1 className="font-bold text-xl">
               Why should you use LendAnything?

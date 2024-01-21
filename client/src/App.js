@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Signup from "./Pages/Signup/index";
 import Login from "./Pages/Login/index";
@@ -18,6 +18,7 @@ import Footer from "./Components/Footer/Index";
 import SignUp from "./Pages/Signup/index";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { PrivateRoute, PublicRoute } from "./Public&PrivateRoute";
+import HowItWorks from "./Pages/HowItWorks";
 function App() {
   return (
     <GoogleOAuthProvider
@@ -25,7 +26,7 @@ function App() {
         "925591508840-4gkbjtn5scntgl0ibjjkcpe62a4b52rf.apps.googleusercontent.com"
       }
     >
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route element={<Login />} path="/" exact />
@@ -45,6 +46,24 @@ function App() {
           <Route element={<PublicRoute />}>
             <Route element={<CartPage />} path="/cart" />
           </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<HomePage />} path="/home" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<AboutPage />} path="/about" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<NewListing />} path="/newlisting" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<HowItWorks />} path="/howitworks" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<ProductDetailPage />} path="/productdetail" />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route element={<ProfilePage />} path="/profile" />
+          </Route>
           {/* <Route path="/" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
 
@@ -60,7 +79,7 @@ function App() {
           <Route element={<Footer />} />
           <Route element={<Navbar />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </GoogleOAuthProvider>
   );
 }

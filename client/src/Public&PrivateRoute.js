@@ -6,6 +6,6 @@ const PublicRoute = () => {
 };
 const PrivateRoute = () => {
   const token = useSelector((state) => state.userID);
-  return !token ? <Outlet /> : <Navigate to={"/Browsing"} />;
+  return !token ? <Outlet /> : <Navigate to={"/home"} />;
 };
 export { PrivateRoute, PublicRoute };

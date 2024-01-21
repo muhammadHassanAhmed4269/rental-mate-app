@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { changeCategory } from "../../redux/Main/mainSlice";
 import { useDispatch } from "react-redux";
 
-const Index = () => {
+const Navbar = () => {
   const dispatch = useDispatch();
   const languageOptions = [
     { value: "en", label: "English", flag: Usa },
@@ -42,12 +42,14 @@ const Index = () => {
 
   return (
     <div>
-      <div className="bg-green-600">
+      <div className="bg-[#01A664]">
         <div className=" h-24 flex items-center ">
           <div className="flex items-center">
-            <div className="text-white text-2xl font-medium flex justify-center items-center w-[100px]">
-              Logo
-            </div>
+            <Link to={"/home"}>
+              <div className="text-white text-2xl font-medium flex justify-center items-center w-[100px]">
+                Logo
+              </div>
+            </Link>
             <div className="w-[450px] relative h-12 flex items-center bg-white p-2">
               <input
                 className="w-full h-12 bg-transparent outline-none placeholder-black pl-12"
@@ -63,10 +65,10 @@ const Index = () => {
 
           <div className="flex justify-around w-full">
             <div className="flex items-center">
-              <Link to={"/"} className="text-white text-lg mr-4">
+              <Link to={"/home"} className="text-white text-lg mr-4">
                 Home
               </Link>
-              <Link to={"/About"} className="text-white text-lg mr-4 ml-16">
+              <Link to={"/about"} className="text-white text-lg mr-4 ml-16">
                 About
               </Link>
               {/* <div className="text-white text-lg mr-4">
@@ -190,4 +192,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Navbar;
